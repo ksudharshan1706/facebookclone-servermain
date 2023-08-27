@@ -3,6 +3,19 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
+//get all users
+
+router.get("/allusers", async (req, res, next) => {
+  // console.log(req.query.stringse);
+  try {
+    const users = await User.find();
+    console.log(users);
+    return res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "user not found" });
+  }
+});
 //searchdata
 
 router.get("/searchdata", async (req, res, next) => {
@@ -63,7 +76,7 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/:userId", async (req, res) => {
   const userId = req.params.userId;
-  //console.log("line 47", req.params);
+  console.log("line 47", req.params);
   const username = req.query.username;
   try {
     const user = await User.findById(userId);
